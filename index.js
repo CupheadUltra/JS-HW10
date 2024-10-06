@@ -1,6 +1,6 @@
 let helloButton = document.createElement('button');
 helloButton.textContent = 'Click me';
-document.body.appendChild(helloButton);
+document.body(helloButton);
 helloButton.onclick = () => {
     alert('Hello World!');
 };
