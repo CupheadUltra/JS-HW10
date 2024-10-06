@@ -1,66 +1,48 @@
-
-let helloBtn = document.createElement('button');
-helloBtn.textContent = 'Click me';
-document.body.appendChild(helloBtn);
-
-let message = document.createElement('p');
-document.body.appendChild(message);
-
-helloBtn.addEventListener('click', () => {
-    message.textContent = 'Hello World!';
-});
+let helloButton = document.createElement('button');
+helloButton.textContent = 'Click me';
+document.body.appendChild(helloButton);
+helloButton.onclick = () => {
+    alert('Hello World!');
+};
 
 let randomNumber = Math.floor(Math.random() * 100) + 1;
-
-let userGuessInput = document.createElement('input');
-userGuessInput.type = 'number';
-userGuessInput.placeholder = 'Введіть число';
-document.body.appendChild(userGuessInput);
-
-let checkGuessBtn = document.createElement('button');
-checkGuessBtn.textContent = 'Перевірити';
-document.body.appendChild(checkGuessBtn);
-
-let resultMessage = document.createElement('p');
-document.body.appendChild(resultMessage);
-
-checkGuessBtn.addEventListener('click', () => {
-    let guess = Number(userGuessInput.value);
-    if (guess === randomNumber) {
-        resultMessage.textContent = 'Ви вгадали!';
-    } else if (guess > randomNumber) {
-        resultMessage.textContent = 'Забагато!';
+function checkGuess() {
+    let userGuess = parseInt(guessField.value);
+    if (userGuess === randomNumber) {
+        guessResult.textContent = 'Вітаємо! Ви вгадали число!';
+    } else if (userGuess < randomNumber) {
+        guessResult.textContent = 'Забагато. Спробуйте більше.';
     } else {
-        resultMessage.textContent = 'Замало!';
+        guessResult.textContent = 'Замало. Спробуйте менше.';
     }
-});
+}
 
 let clickCount = 0;
-let clickCountMessage = document.createElement('p');
-clickCountMessage.innerHTML = 'Ви клікнули <span id="clickCount">0</span> разів на цій сторінці.';
-document.body.appendChild(clickCountMessage);
-let clickCountDisplay = clickCountMessage.querySelector('#clickCount');
-document.addEventListener('click', () => {
+let message = document.createElement('p');
+message.textContent = `Ви клікнули 0 разів на сторінці.`;
+document.body.appendChild(message);
+window.onclick = function() {
     clickCount++;
-    clickCountDisplay.textContent = clickCount;
-});
+    message.textContent = `Ви клікнули ${clickCount} разів на сторінці.`;
+};
 
-let processArray = (arr, callback) => {
+const applyCallbackToEachElement = (arr, callback) => {
     let resultArray = [];
     for (let i = 0; i < arr.length; i++) {
         resultArray.push(callback(arr[i]));
     }
     return resultArray;
-};
-let numbers = [1, 2, 3, 4, 5];
-let squaredNumbers = processArray(numbers, (num) => num * num);
-console.log(squaredNumbers);
+}
+const arr = [1, 2, 3, 4, 5];
+const squareCallback = (num) => num * num;
+const result = applyCallbackToEachElement(arr, squareCallback);
+console.log(result); 
 
-let calculateDiscountedPrice = (price, discount, callback) => {
-    let discountedPrice = price - (price * (discount / 100));
-    return callback(discountedPrice);
+const calculateDiscountedPrice = (price, discount, callback) => {
+    const discountedPrice = price - (price * (discount / 100));
+    callback(discountedPrice);
 };
-let finalPrice = calculateDiscountedPrice(100, 20, (price) => {
-    return `Дисконтна ціна: ${price.toFixed(2)} грн.`;
-});
-console.log(finalPrice); 
+const showDiscountedPrice = (price) => {
+    console.log(`Discounted price: ${price}`);
+};
+calculateDiscountedPrice(100, 10, showDiscountedPrice);
