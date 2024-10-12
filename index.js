@@ -1,30 +1,41 @@
-let helloButton = document.createElement('button');
-helloButton.textContent = 'Click me';
-document.body.appendChild(helloButton);
-helloButton.onclick = () => {
-    alert('Hello World!');
+const setClick = () => confirm("Press button");
+const showMessage = (callback) => {
+  let isClick = "";
+  do {
+    isClick = callback();
+    if (isClick === false) {
+      break;
+    }
+    console.log("Hello word");
+  } while (true);
 };
+showMessage(setClick);
 
 let randomNumber = Math.floor(Math.random() * 100) + 1;
-function checkGuess() {
-    let userGuess = parseInt(guessField.value);
+console.log(randomNumber);
+let checkGuess = () => {
+    let userGuess = parseInt(prompt("Введіть число від 1 до 100:"));
+    
     if (userGuess === randomNumber) {
-        guessResult.textContent = 'Вітаємо! Ви вгадали число!';
-    } else if (userGuess < randomNumber) {
-        guessResult.textContent = 'Забагато. Спробуйте більше.';
-    } else {
-        guessResult.textContent = 'Замало. Спробуйте менше.';
+        alert("Ви вгадали правильне число!");
+    } else  {
+        alert("Не вірно."); 
     }
-}
+};
+checkGuess();
 
 let clickCount = 0;
-let message = document.createElement('p');
-message.textContent = `Ви клікнули 0 разів на сторінці.`;
-document.body.appendChild(message);
-window.onclick = function() {
-    clickCount++;
-    message.textContent = `Ви клікнули ${clickCount} разів на сторінці.`;
+let simulateClicks = () => {
+    let userInput = prompt("Введіть 'клік', щоб натиснути, або 'стоп' для завершення:");
+    while (userInput.toLowerCase() === 'клік') {
+        clickCount++;
+        alert(`Ви натиснули ${clickCount} раз(и)!`);
+        userInput = prompt("Введіть 'клік', щоб натиснути знову, або 'стоп' для завершення:");
+    }
+    alert(`Загальна кількість кліків: ${clickCount}`);
 };
+simulateClicks();
+
 
 const applyCallbackToEachElement = (arr, callback) => {
     let resultArray = [];
@@ -38,11 +49,10 @@ const squareCallback = (num) => num * num;
 const result = applyCallbackToEachElement(arr, squareCallback);
 console.log(result); 
 
-const calculateDiscountedPrice = (price, discount, callback) => {
-    const discountedPrice = price - (price * (discount / 100));
-    callback(discountedPrice);
-};
-const showDiscountedPrice = (price) => {
-    console.log(`Discounted price: ${price}`);
-};
-calculateDiscountedPrice(100, 10, showDiscountedPrice);
+
+const calculateDiscountedPrice = (price, discount, callback) =>
+    callback((price / 100) * (100 - discount));
+  const showDiscountedPrice = (totalPrice) => `До сплати ${totalPrice}`;
+  const price = prompt("Введіть вартість товару");
+  const discount = prompt("Введіть знижку");
+  console.log(calculateDiscountedPrice(price, discount, showDiscountedPrice));
